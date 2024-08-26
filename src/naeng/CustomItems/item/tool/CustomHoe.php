@@ -24,7 +24,10 @@ class CustomHoe extends Hoe implements ItemComponents{
         if(isset($info["render_offsets"])) {
             $this->setupRenderOffsets(($info["render_offsets"]["width"] ?? 16), ($info["render_offsets"]["height"] ?? 16), ($info["render_offsets"]["hand_equipped"] ?? false));
         }
-        $this->addComponent(...$this->init($info));
+        $components = $this->init($info);
+        if(count($components) > 0){
+            $this->addComponent(...$components);
+        }
     }
 
     public function getBlockToolType() : int{

@@ -76,9 +76,10 @@ trait CustomItemTrait{
                 }
             }elseif($info["digger"] === "all"){
                 $this->getAllDiggerComponent($diggerComponent, 5);
-            }elseif(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
+            }
+            if(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
                 $diggerComponent->withTags(5, ...$info["digger"]["tags"]);
-            }else{
+            }elseif(is_array($info["digger"]) && count($info["digger"]) > 0){
                 $blocks = $info["digger"];
                 (\Closure::bind(function() use($blocks){
                     foreach($blocks as $block => $speed){
