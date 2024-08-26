@@ -1,0 +1,10 @@
+name: CustomItems
+author: naeng
+main: naeng\CustomItems\CustomItems
+version: 1.0.0
+api: 5.0.0
+depend:
+  - Customies
+softdepend:
+  - DEVirion
+load: STARTUP
