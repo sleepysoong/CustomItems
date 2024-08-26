@@ -16,8 +16,11 @@ use customiesdevs\customies\item\component\FuelComponent;
 use customiesdevs\customies\item\component\InteractButtonComponent;
 use customiesdevs\customies\item\component\ItemComponent;
 use customiesdevs\customies\item\component\KnockbackResistanceComponent;
+use customiesdevs\customies\item\component\UseAnimationComponent;
 use customiesdevs\customies\item\ItemComponentsTrait;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\entity\animation\Animation;
+use pocketmine\entity\animation\ArmSwingAnimation;
 use pocketmine\item\Durable;
 
 trait CustomItemTrait{
@@ -28,22 +31,18 @@ trait CustomItemTrait{
     private int $defensePoint = 5;
     private int $maxDurability = 100;
 
-    protected function getAllDiggerComponent(int $speed): DiggerComponent{
-        $component = new DiggerComponent();
+    protected function getAllDiggerComponent(DiggerComponent &$component, int $speed) : void{
         foreach(VanillaBlocks::getAll() as $block){
             $component->withBlocks($speed, $block);
         }
-        return $component;
     }
 
-    protected function getTypedDiggerComponent(int $speed): DiggerComponent{
-        $component = new DiggerComponent();
+    protected function getTypedDiggerComponent(DiggerComponent &$component, int $speed) : void{
         foreach(VanillaBlocks::getAll() as $block){
             if($block->getBreakInfo()->getToolType() == $this->getBlockToolType()){
                 $component->withBlocks($speed, $block);
             }
         }
-        return $component;
     }
 
 
@@ -69,13 +68,15 @@ trait CustomItemTrait{
             $components[] = new CooldownComponent($info["cooldown"]["category"], $info["cooldown"]["duration"]);
         }
         if(isset($info["digger"])){
+            $diggerComponent = new DiggerComponent();
             if($info["digger"] === "type"){
-                $components[] = $this->getTypedDiggerComponent(5);
+                $this->getTypedDiggerComponent($diggerComponent, 5);
             }elseif($info["digger"] === "all"){
-                $components[] = $this->getAllDiggerComponent(5);
+                $this->getAllDiggerComponent($diggerComponent, 5);
+            }elseif(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
+                $diggerComponent->withTags(5, ...$info["digger"]["tags"]);
             }else{
                 $blocks = $info["digger"];
-                $diggerComponent = new DiggerComponent();
                 (\Closure::bind(function() use($blocks){
                     foreach($blocks as $block => $speed){
                         $this->destroySpeeds[] = [
@@ -84,8 +85,8 @@ trait CustomItemTrait{
                         ];
                     }
                 }, $diggerComponent, $diggerComponent::class))();
-                $components[] = $diggerComponent;
             }
+            $components[] = $diggerComponent;
         }
         if(isset($info["max_durability"])){
             $maxDurability = $info["max_durability"];
