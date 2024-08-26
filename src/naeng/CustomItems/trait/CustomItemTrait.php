@@ -71,6 +71,9 @@ trait CustomItemTrait{
             $diggerComponent = new DiggerComponent();
             if($info["digger"] === "type"){
                 $this->getTypedDiggerComponent($diggerComponent, 5);
+                if($info["type"] === "axe"){
+                    $diggerComponent->withTags(5, "acacia", "birch", "dark_oak", "jungle", "log", "oak", "jungle", "log", "oak", "spruce");
+                }
             }elseif($info["digger"] === "all"){
                 $this->getAllDiggerComponent($diggerComponent, 5);
             }elseif(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
