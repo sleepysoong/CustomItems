@@ -71,32 +71,6 @@ trait CustomItemTrait{
         if(isset($info["mining_efficiency"])){
             $this->miningEfficiency = floatval($info["mining_efficiency"]);
         }
-        if(isset($info["digger"])){
-            $speed = static::getSpeed();
-            $diggerComponent = new DiggerComponent();
-            if($info["digger"] === "type"){
-                $this->getTypedDiggerComponent($diggerComponent, $speed);
-                if($info["type"] === "axe"){
-                    $diggerComponent->withTags($speed, "acacia", "birch", "dark_oak", "jungle", "log", "oak", "jungle", "log", "oak", "spruce");
-                }
-            }elseif($info["digger"] === "all"){
-                $this->getAllDiggerComponent($diggerComponent, $speed);
-            }
-            if(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
-                $diggerComponent->withTags(5, ...$info["digger"]["tags"]);
-            }elseif(is_array($info["digger"]) && count($info["digger"]) > 0){
-                $blocks = $info["digger"];
-                (\Closure::bind(function() use($blocks){
-                    foreach($blocks as $block => $speed){
-                        $this->destroySpeeds[] = [
-                            "block" => ["name" => $block],
-                            "speed" => $speed
-                        ];
-                    }
-                }, $diggerComponent, $diggerComponent::class))();
-            }
-            $components[] = $diggerComponent;
-        }
         if(isset($info["max_durability"])){
             $maxDurability = $info["max_durability"];
             if($maxDurability === "infinity"){
@@ -142,6 +116,8 @@ trait CustomItemTrait{
         return $this->maxDurability;
     }
 
-    abstract public function getSpeed() : float;
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
 
 }
