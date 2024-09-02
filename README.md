@@ -26,8 +26,9 @@ lore:
 ```
 - `type`: 아이템의 타입을 결정할 수 있습니다
   - 현재 지원하는 타입 리스트: `boots`, `chestplate`, `helmet`, `leggings`, `axe`, `hoe`, `pickaxe`, `shovel`, `sword`
+- `mining_efficiency`: 아이템의 기본 속도를 설정할 수 있습니다
 - `digger`: 특정 아이템을 빠르게 캐도록 할 수 있습니다
-  - 1) `type`: 도구의 특징을 반영합니다 `예) 도구 타입의 아이템이라면 나무를 빠르게 캡니다`
+  - 1) `type`: 도구의 특징을 반영합니다 **[`mining_efficiency`와 함께 사용하길 권장합니다]** `예) 도구 타입의 아이템이라면 나무를 빠르게 캡니다`
   - 2) `all`: 모든 블럭을 빠르게 캐도록 할 수 있습니다
   - 3) `원하는 블럭과 속도 적기`: (아래와 같이 배열 형태로 기재합니다)
 ```
@@ -44,6 +45,7 @@ digger:
 ---
 "hello:apple":
   type: pickaxe
+  mining_efficiency: 3
   digger: type
   texture: apple
   max_durability: infinity
