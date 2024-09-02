@@ -34,4 +34,12 @@ class CustomHoe extends Hoe implements ItemComponents{
         return BlockToolType::HOE;
     }
 
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
+    }
+
 }

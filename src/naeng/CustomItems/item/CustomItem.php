@@ -33,4 +33,12 @@ class CustomItem extends Item implements ItemComponents{
         return BlockToolType::NONE;
     }
 
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
+    }
+
 }

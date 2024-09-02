@@ -34,4 +34,12 @@ class CustomPickaxe extends Pickaxe implements ItemComponents{
         return BlockToolType::PICKAXE;
     }
 
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
+    }
+
 }

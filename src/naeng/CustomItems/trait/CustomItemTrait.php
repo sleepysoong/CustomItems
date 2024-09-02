@@ -30,6 +30,7 @@ trait CustomItemTrait{
     private int $maxStackSize = 64;
     private int $defensePoint = 5;
     private int $maxDurability = 100;
+    protected int $miningEfficiency = 1;
 
     protected function getAllDiggerComponent(DiggerComponent &$component, int $speed) : void{
         foreach(VanillaBlocks::getAll() as $block){
@@ -67,15 +68,19 @@ trait CustomItemTrait{
         if(isset($info["cooldown"])){
             $components[] = new CooldownComponent($info["cooldown"]["category"], $info["cooldown"]["duration"]);
         }
+        if(isset($info["mining_efficiency"])){
+            $this->miningEfficiency = floatval($info["mining_efficiency"]);
+        }
         if(isset($info["digger"])){
+            $speed = static::getSpeed();
             $diggerComponent = new DiggerComponent();
             if($info["digger"] === "type"){
-                $this->getTypedDiggerComponent($diggerComponent, 5);
+                $this->getTypedDiggerComponent($diggerComponent, $speed);
                 if($info["type"] === "axe"){
-                    $diggerComponent->withTags(5, "acacia", "birch", "dark_oak", "jungle", "log", "oak", "jungle", "log", "oak", "spruce");
+                    $diggerComponent->withTags($speed, "acacia", "birch", "dark_oak", "jungle", "log", "oak", "jungle", "log", "oak", "spruce");
                 }
             }elseif($info["digger"] === "all"){
-                $this->getAllDiggerComponent($diggerComponent, 5);
+                $this->getAllDiggerComponent($diggerComponent, $speed);
             }
             if(isset($info["digger"]["tags"]) && count($info["digger"]["tags"]) > 0){
                 $diggerComponent->withTags(5, ...$info["digger"]["tags"]);
@@ -136,5 +141,7 @@ trait CustomItemTrait{
     public function getMaxDurability() : int{
         return $this->maxDurability;
     }
+
+    abstract public function getSpeed() : float;
 
 }

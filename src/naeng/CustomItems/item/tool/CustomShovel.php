@@ -34,4 +34,12 @@ class CustomShovel extends Shovel implements ItemComponents{
         return BlockToolType::SHOVEL;
     }
 
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
+    }
+
 }

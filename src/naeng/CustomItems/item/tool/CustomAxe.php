@@ -34,4 +34,12 @@ class CustomAxe extends Axe implements ItemComponents{
         return BlockToolType::AXE;
     }
 
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
+    }
+
 }

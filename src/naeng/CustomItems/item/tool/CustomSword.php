@@ -9,6 +9,7 @@ use naeng\CustomItems\CustomItems;
 use naeng\CustomItems\trait\CustomItemTrait;
 use pocketmine\block\BlockToolType;
 use pocketmine\item\ItemIdentifier;
+use pocketmine\item\Sword;
 use pocketmine\item\ToolTier;
 
 class CustomSword extends Sword implements ItemComponents{
@@ -31,6 +32,14 @@ class CustomSword extends Sword implements ItemComponents{
 
     public function getBlockToolType() : int{
         return BlockToolType::SWORD;
+    }
+
+    public function getBaseMiningEfficiency() : float{
+        return $this->miningEfficiency;
+    }
+
+    public function getSpeed() : float{
+        return $this->getMiningEfficiency(true);
     }
 
 }
